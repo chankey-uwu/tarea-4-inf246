@@ -5,7 +5,7 @@ from datetime import datetime
 import random
 import math
 from partida import Partida
-from registros.registros import *
+from registros import *
 
 class Lobby():
     def __init__(self):
