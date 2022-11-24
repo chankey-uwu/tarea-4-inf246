@@ -5,9 +5,10 @@ import math
 import lobby
 import jugador
 
-jugadores = list()
+lobby = lobby.lobby_class()
 for i in range(5):
     j = jugador.jugador(i)
-    jugadores.append(j)
+    lobby.llegada(i,j.partida)
     j.run()
+
 

@@ -7,6 +7,10 @@ class jugador (Thread):
         self.player_id = player_id
         self.partida = random.randint(1,4)
 
+    def getId(self):
+        return self.player_id
+
     def run(self):
         print("Partida del jugador {}: {}".format(self.player_id,self.partida))
+
         pass
