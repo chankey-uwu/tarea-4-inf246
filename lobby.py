@@ -1,9 +1,11 @@
 from threading import *
 from queue import *
 import time
+from datetime import datetime
 import random
 import math
-from partidas import estandar
+from partida import Partida
+from registros.registros import *
 
 class Lobby():
     def __init__(self):
@@ -11,32 +13,51 @@ class Lobby():
         self.versus = list()
         self.rapida = list()
         self.navidad = list()
-        self.lock = Lock()
+        self.lock1 = Lock()
+        self.lock2 = Lock()
+        self.lock3 = Lock()
+        self.lock4 = Lock()
     
-    def llegada(self, j):
+    def llegada(self, jugador):
         cola_temp = None
-        if j.getPartida() == 1:
+        partida = jugador.getPartida()
+        player_id = jugador.getId()
+        if partida == 1:
             cola_temp = self.estandar
-        elif j.getPartida() == 2:
+        elif partida == 2:
             cola_temp = self.versus
-        elif j.getPartida() == 3:
+        elif partida == 3:
             cola_temp = self.rapida
-        elif j.getPartida() == 4:
+        elif partida == 4:
             cola_temp = self.navidad
 
-        cola_temp.append(j.getId())
-        ti = time.time()
-        print(cola_temp)
-        self.lock.acquire()
-        time.sleep(1)
-        print("Jugador {} a partida {}".format(j.getId(), j.getPartida()))
-        print(time.time() - ti)
+        cola_temp.append(player_id)
+        ti = datetime.now()
+        self.lockear(partida)
         cola_temp.pop(0)
-        print(cola_temp)
-        self.lock.release()
+        tf = datetime.now()
+        reg_lobby(player_id, str(ti), partida, str(tf))
+        self.deslockear(partida)
 
-
-
+    def lockear(self, n):
+        if n == 1:
+            self.lock1.acquire()
+        elif n == 2:
+            self.lock2.acquire()
+        elif n == 3:
+            self.lock3.acquire()
+        elif n == 4:
+            self.lock4.acquire()
+        
+    def deslockear(self, n):
+        if n == 1:
+            self.lock1.release()
+        elif n == 2:
+            self.lock2.release()
+        elif n == 3:
+            self.lock3.release()
+        elif n == 4:
+            self.lock4.release()
 
 """
 cantPlayers = 0
