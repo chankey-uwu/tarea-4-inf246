@@ -21,7 +21,8 @@ Partida sólo empieza si se llena la cola, una vez empieza, cola se vacía y emp
 
 ## Registros
 
+Listo
 
-## Preguntas
+## Problemas a solucionar
 
-1. ¿Cuando una cola está llena y un jugador intenta entrar a esta cola, debe esperar en la misma cola del lobby y dejar en pausa a todos los otros jugadores o hay que hacer una cola de espera de la cola de la partida en 
+Hebras en espera de algo

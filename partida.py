@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-from threading import Lock
+from threading import *
 from registros import *
 
 class Partida():
@@ -9,9 +9,9 @@ class Partida():
         self.game_capacity = game_capacity
         self.duration = duration
         self.queue_capacity = queue_capacity
+        self.semaphore = BoundedSemaphore(queue_capacity)
         self.players = list()
         self.queue = list()
-        self.lock = Lock()
         self.lock_enqueue = Lock()
         self.in_game = False
 
@@ -27,18 +27,18 @@ class Partida():
 
     def enqueued(self, jugador):
         ti = datetime.now()
-        self.lock.acquire()
+        self.semaphore.acquire()
         if self.in_game == False and len(self.queue) == self.queue_capacity:
             self.start_game()
         elif self.in_game == False and len(self.queue) < self.queue_capacity:
-            while(len(self.enqueue) < self.queue_capacity):
+            while(len(self.queue) < self.queue_capacity):
                 time.sleep()
             self.start_game()
         elif self.in_game == True and len(self.players) == self.game_capacity:
             while self.in_game:
                 time.sleep()
             self.start_game()
-        self.lock.release()
+        self.semaphore.release()
         tf = datetime.now()
         reg_partida(jugador.getId(),ti,tf,self.game_id)
 

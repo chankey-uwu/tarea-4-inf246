@@ -9,6 +9,9 @@ class jugador (Thread):
         self.player_id = player_id
         self.partida = random.randint(0,3)
 
+    def waitEvent(self, event):
+        event.wait()        
+    
     def getId(self):
         return self.player_id
     

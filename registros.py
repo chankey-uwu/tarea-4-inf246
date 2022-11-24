@@ -1,4 +1,4 @@
-lobby_file = open("registros/Lobby.txt","w")
+lobby_file = open("registros/Lobby.txt","w",encoding='utf-8')
 estandar_file = open("registros/PartidaEstándar.txt","w")
 versus_file = open("registros/PartidaVersus.txt","w")
 rapida_file = open("registros/PartidaRápida.txt","w")
