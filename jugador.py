@@ -7,7 +7,7 @@ class jugador (Thread):
         super().__init__()
         self.lobby = lobby
         self.player_id = player_id
-        self.partida = random.randint(1,4)
+        self.partida = random.randint(0,3)
 
     def getId(self):
         return self.player_id
