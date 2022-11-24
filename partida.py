@@ -12,44 +12,50 @@ class Partida():
         self.semaphore = BoundedSemaphore(queue_capacity)
         self.players = list()
         self.queue = list()
-        self.lock_enqueue = Lock()
+        self.semaphore_enqueue = Semaphore()
         self.in_game = False
+        self.evento_cola = Event()
+        self.evento_partida = Event()
 
     def enqueue(self, jugador):
-        self.lock_enqueue.acquire()
+        self.semaphore_enqueue.acquire()
         if len(self.queue) < self.queue_capacity:
             self.queue.append(jugador)
-            self.lock_enqueue.release()
-            return True
         else:
-            self.lock_enqueue.release()
-            return False
-
+            self.evento_cola.wait()
+            self.queue.append(jugador)
+            self.evento_cola.clear()
+        self.semaphore_enqueue.release()
+            
     def enqueued(self, jugador):
         ti = datetime.now()
+        print("ALGUIEN SE ENCOLÓ EN {}".format(self.game_id))
         self.semaphore.acquire()
         if self.in_game == False and len(self.queue) == self.queue_capacity:
+            for p in self.queue:
+                self.players.append(p)
             self.start_game()
+            self.semaphore.release()
         elif self.in_game == False and len(self.queue) < self.queue_capacity:
-            while(len(self.queue) < self.queue_capacity):
-                time.sleep()
-            self.start_game()
+            self.evento_partida.wait()
+            self.semaphore.release()
         elif self.in_game == True and len(self.players) == self.game_capacity:
-            while self.in_game:
-                time.sleep()
-            self.start_game()
-        self.semaphore.release()
+            self.evento_partida.wait()
+            self.semaphore.release()
         tf = datetime.now()
-        reg_partida(jugador.getId(),ti,tf,self.game_id)
-
+        reg_partida(jugador.getId(),str(ti),str(tf),self.game_id)
             
     def getType(self):
         return self.duration
 
     def start_game(self):
         self.in_game = True
+        self.evento_cola.set()
         time.sleep(7)
         self.in_game = False
+        self.evento_partida.set()
 
     def play(self, jugador):
-        print("Uwu")
+        self.evento_partida.wait()
+        t = datetime.now()
+        reg_salida(jugador.getId(),str(t))

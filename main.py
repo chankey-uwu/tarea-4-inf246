@@ -10,6 +10,6 @@ navidad = Partida(4, 12, 5, 10)
 partidas = [estandar, versus, rapida, navidad]
 lobby = Lobby(partidas)
 
-for i in range(30):
+for i in range(120):
     j = jugador.jugador(i + 1,lobby)
     j.start()

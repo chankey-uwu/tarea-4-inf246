@@ -20,17 +20,9 @@ class Lobby():
         cola_temp.append(player_id)
         ti = datetime.now()
         self.locks[partida].acquire()
-        """
-        event = Event()
-        jugador.waitEvent(event)
-        while self.partidas[partida].enqueue(jugador) == False:
-            time.sleep(random.randint(0,5))
-        """
+        self.partidas[partida].enqueue(jugador)
         cola_temp.pop(0)
-        self.locks[partida].release()
         tf = datetime.now()
         reg_lobby(player_id, str(ti), partida, str(tf))
-        #self.partidas[partida].enqueued(jugador)
-
-    def wait_game(self, event, game):
-        print("uwu")
+        self.locks[partida].release()
+        self.partidas[partida].enqueued(jugador)

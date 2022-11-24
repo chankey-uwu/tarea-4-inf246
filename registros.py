@@ -24,13 +24,24 @@ def reg_lobby(player_id, hora_ingreso, partida, hora_salida):
 
 def reg_partida(player_id, hora_ingreso, hora_salida, partida):    
     if partida == 0:
-        estandar_file.write("Jugador{}, {}, {}, {}\n".format(player_id,conv_hora(hora_ingreso),conv_hora(hora_salida)))
+        estandar_file.write("Jugador{}, {}, {}\n".format(player_id,conv_hora(hora_ingreso),conv_hora(hora_salida)))
+        
     elif partida == 1:
-        versus_file.write("Jugador{}, {}, {}, {}\n".format(player_id,conv_hora(hora_ingreso),conv_hora(hora_salida)))
+        versus_file.write("Jugador{}, {}, {}\n".format(player_id,conv_hora(hora_ingreso),conv_hora(hora_salida)))
+        
     elif partida == 2:
-        rapida_file.write("Jugador{}, {}, {}, {}\n".format(player_id,conv_hora(hora_ingreso),conv_hora(hora_salida)))
-    elif partida == 3:
-        navidad_file.write("Jugador{}, {}, {}, {}\n".format(player_id,conv_hora(hora_ingreso),conv_hora(hora_salida)))
+        rapida_file.write("Jugador{}, {}, {}\n".format(player_id,conv_hora(hora_ingreso),conv_hora(hora_salida)))
+
+    elif partida == 3: 
+        navidad_file.write("Jugador{}, {}, {}\n".format(player_id,conv_hora(hora_ingreso),conv_hora(hora_salida)))  
 
 def reg_salida(player_id, hora):
     salida_file.write("Jugador{}, {}\n".format(player_id,conv_hora(hora)))
+    
+def cerrar():
+    lobby_file.close()
+    estandar_file.close()
+    versus_file.close()
+    rapida_file.close()
+    navidad_file.close()
+    salida_file.close()
