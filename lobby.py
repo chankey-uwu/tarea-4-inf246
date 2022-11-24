@@ -1,19 +1,42 @@
 from threading import *
 from queue import *
-from main import jugador
 import time
 import random
 import math
 from partidas import estandar
 
-jugadores = list()
-lock = Lock
+class Lobby():
+    def __init__(self):
+        self.estandar = list()
+        self.versus = list()
+        self.rapida = list()
+        self.navidad = list()
+        self.lock = Lock()
+    
+    def llegada(self, j):
+        cola_temp = None
+        if j.getPartida() == 1:
+            cola_temp = self.estandar
+        elif j.getPartida() == 2:
+            cola_temp = self.versus
+        elif j.getPartida() == 3:
+            cola_temp = self.rapida
+        elif j.getPartida() == 4:
+            cola_temp = self.navidad
 
-def llegada(player_id):
-    jugadores.append(jugador.getId())
-    lock.acquire()
-    time.sleep(1)
-    print("Jugador {} a partida {}".format(jugador, partida))
+        cola_temp.append(j.getId())
+        ti = time.time()
+        print(cola_temp)
+        self.lock.acquire()
+        time.sleep(1)
+        print("Jugador {} a partida {}".format(j.getId(), j.getPartida()))
+        print(time.time() - ti)
+        cola_temp.pop(0)
+        print(cola_temp)
+        self.lock.release()
+
+
+
 
 """
 cantPlayers = 0

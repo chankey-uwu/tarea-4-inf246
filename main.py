@@ -2,13 +2,11 @@ from threading import *
 import time
 import random
 import math
-import lobby
+from lobby import Lobby
 import jugador
 
-lobby = lobby.lobby_class()
+lobby = Lobby()
+
 for i in range(5):
-    j = jugador.jugador(i)
-    lobby.llegada(i,j.partida)
-    j.run()
-
-
+    j = jugador.jugador(i + 1,lobby)
+    j.start()

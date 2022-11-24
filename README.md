@@ -24,6 +24,4 @@ Partida sólo empieza si se llena la cola, una vez empieza, cola se vacía y emp
 
 ## Preguntas
 
-1. ¿Lobby no tiene límite de jugadores pero el juego será de 120?
-2. ¿Partida elegida de forma aleatoria, pero el jugador decide partida, supongo que se refiere a que en teoría el jugador está eligiendo una partida pero como es una simulación, en la práctica se elige al azar?
-3. 
+1. ¿Cuando una cola está llena y un jugador intenta entrar a esta cola, debe esperar en la misma cola del lobby y dejar en pausa a todos los otros jugadores o hay que hacer una cola de espera de la cola de la partida en 
