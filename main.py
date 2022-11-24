@@ -7,7 +7,7 @@ import jugador
 
 jugadores = list()
 for i in range(5):
-    j = jugador.jugador(i,random.randint(1,4))
+    j = jugador.jugador(i)
     jugadores.append(j)
     j.run()
 

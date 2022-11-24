@@ -1,11 +1,12 @@
 from threading import *
+import random
 import lobby
 
 class jugador (Thread):
-    def __init__(self, player_id, partida):
+    def __init__(self, player_id):
         self.player_id = player_id
-        self.partida = partida
+        self.partida = random.randint(1,4)
 
     def run(self):
-        lobby.lobby_enqueue(self.player_id,self.partida)
+        print("Partida del jugador {}: {}".format(self.player_id,self.partida))
         pass
