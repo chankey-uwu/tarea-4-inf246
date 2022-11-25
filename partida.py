@@ -49,13 +49,15 @@ class Partida():
         return self.duration
 
     def start_game(self):
+        print("partida de {}".format(self.game_id))
         self.in_game = True
         self.evento_cola.set()
-        time.sleep(7)
+        time.sleep(self.duration)
         self.in_game = False
         self.evento_partida.set()
 
     def play(self, jugador):
         self.evento_partida.wait()
         t = datetime.now()
+        print("SALIDA")
         reg_salida(jugador.getId(),str(t))
