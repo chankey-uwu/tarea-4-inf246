@@ -14,7 +14,6 @@ class Partida():
         self.event_game_end = Event()
         
     def isPartida(self):
-        print(self.event_game_start.is_set())
         return self.event_game_start.is_set()
     
     def play(self, player, ti):

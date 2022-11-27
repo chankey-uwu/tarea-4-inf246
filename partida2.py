@@ -9,13 +9,20 @@ class cola_partida():
         self.queue_capacity = queue_capacity
         self.queue_quantity = 0
         self.lock = Lock()
+        self.semaphore = Semaphore()
         self.fullQueue = False
 
     def isFull(self):
         return self.fullQueue
     
+
+
     def enqueue(self, player):
         self.lock.acquire()
         self.queue_quantity += 1
         if self.queue_capacity == self.queue_quantity:
             self.fullQueue = True
+    
+    def goToGame(self, player, ti):
+        #Poner lo del wait y el go
+        print("uwu")
