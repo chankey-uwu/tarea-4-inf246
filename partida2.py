@@ -25,4 +25,4 @@ class cola_partida():
     
     def goToGame(self, player, ti):
         #Poner lo del wait y el go
-        print("uwu")
+        print("Pico pal que lee")
