@@ -7,9 +7,6 @@ class jugador (Thread):
         self.player_id = player_id
         self.partida = partida
 
-    def waitEvent(self, event):
-        event.wait()        
-    
     def getId(self):
         return self.player_id
     
