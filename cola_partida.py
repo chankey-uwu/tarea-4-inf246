@@ -4,60 +4,34 @@ from threading import *
 from registros import *
 
 class cola_partida():
-    def __init__(self, game_id, game_capacity, duration, queue_capacity):
+    def __init__(self, game_id, queue_capacity, game): #pasarle a game el partidas[partida]
         self.game_id = game_id
-        self.game_capacity = game_capacity
-        self.duration = duration
         self.queue_capacity = queue_capacity
-        self.semaphore = BoundedSemaphore(queue_capacity)
-        self.players = list()
-        self.queue = list()
-        self.semaphore_enqueue = Semaphore()
-        self.in_game = False
-        self.evento_cola = Event()
-        self.evento_partida = Event()
+        self.game = game
+        self.queue_quantity = 0
+        self.lock = Lock()
+        self.semaphore = Semaphore()
+        self.fullQueue = False
+        self.event_leave_queue = Event()
 
-    def enqueue(self, jugador):
-        self.semaphore_enqueue.acquire()
-        if len(self.queue) < self.queue_capacity:
-            self.queue.append(jugador)
-        else:
-            self.evento_cola.wait()
-            self.queue.append(jugador)
-            self.evento_cola.clear()
-        self.semaphore_enqueue.release()
-            
-    def enqueued(self, jugador):
+    def isFull(self):
+        return self.fullQueue
+    
+    def enqueue(self, player):
+        self.lock.acquire()
         ti = datetime.now()
-        print("ALGUIEN SE ENCOLÓ EN {}".format(self.game_id))
+        self.queue_quantity += 1
+        if self.queue_capacity == self.queue_quantity:
+            self.fullQueue = True
+        self.lock.release()
+        self.goToGame(player, ti)
+    
+    def goToGame(self, player, ti):
         self.semaphore.acquire()
-        if self.in_game == False and len(self.queue) == self.queue_capacity:
-            for p in self.queue:
-                self.players.append(p)
-            self.start_game()
-            self.semaphore.release()
-        elif self.in_game == False and len(self.queue) < self.queue_capacity:
-            self.evento_partida.wait()
-            self.semaphore.release()
-        elif self.in_game == True and len(self.players) == self.game_capacity:
-            self.evento_partida.wait()
-            self.semaphore.release()
-        tf = datetime.now()
-        reg_partida(jugador.getId(),str(ti),str(tf),self.game_id)
-            
-    def getType(self):
-        return self.duration
-
-    def start_game(self):
-        print("partida de {}".format(self.game_id))
-        self.in_game = True
-        self.evento_cola.set()
-        time.sleep(self.duration)
-        self.in_game = False
-        self.evento_partida.set()
-
-    def play(self, jugador):
-        self.evento_partida.wait()
-        t = datetime.now()
-        print("SALIDA")
-        reg_salida(jugador.getId(),str(t))
+        if self.game.isPartida():
+            self.game.waitPartida()
+        self.queue_quantity -= 1
+        self.fullQueue = False
+        self.event_leave_queue.set()
+        self.semaphore.release()
+        self.game.play(player, ti)

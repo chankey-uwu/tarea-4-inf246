@@ -1,13 +1,11 @@
 from threading import *
-import random
-import lobby
 
 class jugador (Thread):
-    def __init__(self, player_id, lobby):
+    def __init__(self, player_id, lobby, partida):
         super().__init__()
         self.lobby = lobby
         self.player_id = player_id
-        self.partida = random.randint(0,3)
+        self.partida = partida
 
     def waitEvent(self, event):
         event.wait()        
