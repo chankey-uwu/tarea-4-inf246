@@ -10,15 +10,31 @@ class Partida():
         self.duration = duration
         self.quantity = 0
         self.semaphore = Semaphore()
-        self.full = False
-        self.in_game = False
+        self.event_game_start = Event()
+        self.event_game_end = Event()
         
     def isPartida(self):
-        return self.in_game
-
-    def isFull(self):
-        return self.full
+        print(self.event_game_start.is_set())
+        return self.event_game_start.is_set()
     
-    def play(self, player):
+    def play(self, player, ti):
         self.semaphore.acquire()
-        if         
+        self.quantity += 1
+        if self.game_capacity == self.quantity:
+            self.event_game_start.set()
+            time.sleep(0.00001)
+            reg_partida(player.getId(),str(ti),str(datetime.now()),self.game_id)
+            time.sleep(self.duration)
+            self.event_game_end.set()
+            time.sleep(0.00001)
+            reg_salida(player.getId(),str(datetime.now()))
+            self.event_game_start.clear()
+            self.event_game_end.clear()
+            self.quantity = 0
+            self.semaphore.release()
+        else:
+            self.semaphore.release()
+            self.event_game_start.wait()
+            reg_partida(player.getId(),str(ti),str(datetime.now()),self.game_id)
+            self.event_game_end.wait()
+            reg_salida(player.getId(),str(datetime.now()))
