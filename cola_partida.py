@@ -1,10 +1,9 @@
-import time
 from datetime import datetime
 from threading import *
 from registros import *
 
 class cola_partida():
-    def __init__(self, game_id, queue_capacity, game): #pasarle a game el partidas[partida]
+    def __init__(self, game_id, queue_capacity, game):
         self.game_id = game_id
         self.queue_capacity = queue_capacity
         self.game = game
