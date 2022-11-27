@@ -1,12 +1,12 @@
 from threading import *
 from lobby import Lobby
-from partida import Partida
+from cola_partida import cola_partida
 import jugador
 
-estandar = Partida(1, 15, 7, 7)
-versus = Partida(2, 2, 3, 4)
-rapida = Partida(3, 10, 6, 8)
-navidad = Partida(4, 12, 5, 10)
+estandar = cola_partida(0, 15, 7, 7)
+versus = cola_partida(1, 2, 3, 4)
+rapida = cola_partida(2, 10, 6, 8)
+navidad = cola_partida(3, 12, 5, 10)
 partidas = [estandar, versus, rapida, navidad]
 lobby = Lobby(partidas)
 
