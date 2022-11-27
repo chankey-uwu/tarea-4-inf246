@@ -5,9 +5,9 @@ from partida import *
 import random
 import jugador
 
-q_of_games = [0,0,0,0]
-max_game = [15,2,10,12]
-sobras = [0,0,0,0]
+q_of_games = [0,0,0,0] # Cantidad de juegos
+max_game = [15,2,10,12] # Máximos jugadores por tipo de juego
+sobras = [0,0,0,0] # Jugadores sobrantes por juego (no hay suficientes para iniciar una partida)
 seleccion_partidas = list()
 i = 0
 while 120 > i:
